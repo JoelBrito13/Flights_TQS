@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flights_TQS", "Flights_TQS\Flights_TQS.csproj", "{BE17AF07-8E2F-4F1B-B0B7-BB4DA1DCB2C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTestFlights_TQS", "NUnitTestFlights_TQS\NUnitTestFlights_TQS.csproj", "{31325D5C-9AA3-4632-AA46-C76A4FD2C0FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE17AF07-8E2F-4F1B-B0B7-BB4DA1DCB2C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE17AF07-8E2F-4F1B-B0B7-BB4DA1DCB2C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE17AF07-8E2F-4F1B-B0B7-BB4DA1DCB2C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE17AF07-8E2F-4F1B-B0B7-BB4DA1DCB2C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31325D5C-9AA3-4632-AA46-C76A4FD2C0FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31325D5C-9AA3-4632-AA46-C76A4FD2C0FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31325D5C-9AA3-4632-AA46-C76A4FD2C0FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31325D5C-9AA3-4632-AA46-C76A4FD2C0FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {93C09D53-4E19-4BFA-BAC3-ABB9B9B9A383}
+	EndGlobalSection
+EndGlobal
