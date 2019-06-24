@@ -11,9 +11,7 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
-
-
-            IUnitOfWork unitOfWork = new UnitOfWork(sessionFactory, appServices)
+            IUnitOfWork unitOfWork = new UnitOfWork(sessionFactory, appServices);
             ISearch search = new Search(unitOfWork);
 
         }

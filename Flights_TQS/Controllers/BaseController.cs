@@ -16,10 +16,10 @@ namespace Flights_TQS.Controllers {
 
     //public int LoginIdx {
     //  get {
-    //    if (this.User == null)
+    //    if (this.FlightUser == null)
     //      return 0;
     //    else {
-    //      string idxUsuario = this.User.FindFirstValue(AppServices.Auth0Settings["ClaimIdxUsuario"]);
+    //      string idxUsuario = this.FlightUser.FindFirstValue(AppServices.Auth0Settings["ClaimIdxUsuario"]);
     //      return (String.IsNullOrEmpty(idxUsuario) ? 0 : Convert.ToInt32(idxUsuario));
     //    }
     //  }
@@ -38,7 +38,7 @@ namespace Flights_TQS.Controllers {
     //}
 
     //public bool IsAdmin {
-    //  get { return this.User.IsInRole("admin"); }
+    //  get { return this.FlightUser.IsInRole("admin"); }
     //}
   }
 }

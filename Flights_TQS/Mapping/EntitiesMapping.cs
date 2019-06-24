@@ -7,9 +7,9 @@ using Flights_TQS.Entities;
 
 namespace Flights_TQS.Mapping
 {
-    public class UsersMap : ClassMap<User>
+    public class FlightUsersMap : ClassMap<FlightUser>
     {
-        public UsersMap()
+        public FlightUsersMap()
         {
             Table("Users");
 

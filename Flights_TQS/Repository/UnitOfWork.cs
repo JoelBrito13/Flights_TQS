@@ -20,7 +20,7 @@ namespace Flights_TQS.Repository
         private Repository<Reservation> _Reservations;
         private Repository<Seat> _Seats;
         private Repository<Ticket> _Tickets;
-        private Repository<User> _Users;
+        private Repository<FlightUser> _Users;
 
         // Public
         public ISession Session
@@ -97,11 +97,11 @@ namespace Flights_TQS.Repository
                 return _Tickets;
             }
         }
-        public IRepository<User> Users
+        public IRepository<FlightUser> Users
         {
             get
             {
-                if (_Users == null) _Users = new Repository<User>(Session);
+                if (_Users == null) _Users = new Repository<FlightUser>(Session);
                 return _Users;
             }
         }
