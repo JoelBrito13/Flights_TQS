@@ -20,5 +20,9 @@ namespace Flights_TQS.Entities
         public virtual Nullable<DateTime> DatetimeArrive { get; set; }
         public virtual Nullable<int> FlightLeg { get; set; }
         public virtual double Price { get; set; }
+        //public virtual Boolean sameDepartureDay(DateTime dateTime)
+        //{
+        //    return DatetimeDeparture.
+        //}
     }
 }

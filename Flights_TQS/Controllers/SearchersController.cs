@@ -33,7 +33,7 @@ namespace Flights_TQS.Controllers
         {
             try
             {
-                List<Airport> airports = Search.listAirports(recv.filtername);
+                List<Airport> airports = Search.listAirports(recv.filter);
                 IActionResult response = Ok(airports);
                 return response;
             }
@@ -46,11 +46,11 @@ namespace Flights_TQS.Controllers
         // GET: api/Searchers/ListFlights
         [HttpPost]
         [Route("ListFlights")]
-        public IActionResult ListFlights([FromBody]Flight flight)
+        public IActionResult ListFlights([FromBody]Flight flight, int pageNumber = 0)
         {
             try
             {
-                List<Flight> flights = Search.listFlights(flight);
+                List<Flight> flights = Search.listFlights(flight,pageNumber);
                 IActionResult response = Ok(flights);
                 return response;
             }

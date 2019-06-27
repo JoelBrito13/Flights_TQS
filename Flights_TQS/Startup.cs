@@ -7,13 +7,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
 using NHibernate;
 using NHibernate.Cfg;
 using System;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace Flights_TQS
@@ -49,29 +53,29 @@ namespace Flights_TQS
                   };
 
                   // Additional config snipped
-                  options.Events = new JwtBearerEvents
-                  {
-                      OnTokenValidated = async ctx =>
-                      {
-                          // Get the calling app client id that came from the token produced by Azure AD
-                          var AppServices = ctx.HttpContext.RequestServices.GetRequiredService<IAppServices>();
-                          string idxUsuario = ctx.Principal.FindFirstValue(AppServices.Auth0Settings["ClaimIdxUsuario"]);
+                  //options.Events = new JwtBearerEvents
+                  //{
+                  //    OnTokenValidated = async ctx =>
+                  //    {
+                  //        // Get the calling app client id that came from the token produced by Azure AD
+                  //        var AppServices = ctx.HttpContext.RequestServices.GetRequiredService<IAppServices>();
+                  //        string idxUsuario = ctx.Principal.FindFirstValue(AppServices.Auth0Settings["ClaimIdxUsuario"]);
 
-                          if (String.IsNullOrEmpty(idxUsuario))
-                          {
-                              var nameidentifier = ctx.Principal.FindFirstValue(AppServices.Auth0Settings["ClaimNameIdentifier"]);
+                  //        if (String.IsNullOrEmpty(idxUsuario))
+                  //        {
+                  //            var nameidentifier = ctx.Principal.FindFirstValue(AppServices.Auth0Settings["ClaimNameIdentifier"]);
 
-                              var Usuarios = ctx.HttpContext.RequestServices.GetRequiredService<IUsuarios>();
-                              idxUsuario = Usuarios.Verificar(nameidentifier).Idx.ToString();
+                  //            var FlightUser = ctx.HttpContext.RequestServices.GetRequiredService<ILogin>();
+                  //            idxUsuario = FlightUser.Verify(nameidentifier).Idx.ToString();
 
-                              var appIdentity = new ClaimsIdentity(new List<Claim> {
-                  new Claim(AppServices.Auth0Settings["ClaimIdxUsuario"], idxUsuario)
-                      });
+                  //            var appIdentity = new ClaimsIdentity(new List<Claim> {
+                  //new Claim(AppServices.Auth0Settings["ClaimIdxUsuario"], idxUsuario)
+                  //    });
 
-                              ctx.Principal.AddIdentity(appIdentity);
-                          }
-                      }
-                  };
+                  //            ctx.Principal.AddIdentity(appIdentity);
+                  //        }
+                  //    }
+                  //};
               });
 
             // Register NHibernate
@@ -155,32 +159,30 @@ namespace Flights_TQS
             });
 
             // Swagger
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Title = "CPOD | API .Net Core",
-                    Version = "v1",
-                    Description = "CPOD | Sistema de Gestão",
-                    Contact = new Contact
-                    {
-                        Name = "TaxPayer Sistemas",
-                        Url = "https://www.taxpayer.com.br"
-                    }
-                });
+        //    services.AddSwaggerGen(c =>
+        //    {
+        //        c.SwaggerDoc("v1", new Info
+        //        {
+        //            Title = "Flight Reservetion | API .Net Core",
+        //            Version = "v1",
+        //            {
+        //                Name = "TaxPayer Sistemas",
+        //                Url = "https://www.taxpayer.com.br"
+        //            }
+        //        });
 
-                string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
-                string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
-                string caminhoXmlDoc = Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
+        //        string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
+        //        string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
+        //        string caminhoXmlDoc = Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
 
-                c.IncludeXmlComments(caminhoXmlDoc);
-            });
+        //        c.IncludeXmlComments(caminhoXmlDoc);
+        //    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-            var cultureInfo = new CultureInfo("pt-BR");
+            var cultureInfo = new CultureInfo("en-US");
 
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
@@ -216,11 +218,11 @@ namespace Flights_TQS
             });
 
             // Ativando middlewares para uso do Swagger
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CPOD");
-            });
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "FlightTQS");
+            //});
         }
     }
 }
