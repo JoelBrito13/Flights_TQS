@@ -13,54 +13,28 @@ namespace Flights_TQS.Services
     {
 
         public string Message { get; set; }
+        public class RecvStr
+        {
+            public string filter { get; set; }
+        }
 
-        public Search(IUnitOfWork unitOfWork) : base(unitOfWork) {
-
+        public Search(IUnitOfWork unitOfWork) : base(unitOfWork)
+        {
             Message = string.Empty;
         }
-
-
-        public List<Airplane> listAirplanes()
+        public List<Airport> listAirports(String filter = null)
         {
-            return UnitOfWork.Airplanes.GetAll().ToList();
+            if (filter == null) return UnitOfWork.Airports.GetAll().ToList();
+            return UnitOfWork.Airports.AsQueryable().Where(u => u.City.StartsWith(filter)
+                || u.Country.StartsWith(filter) || u.Name.StartsWith(filter)).Take(7).ToList();
         }
-
-        public List<Airport> listAirports()
+        public List<Flight> listFlights(Flight flight, int pageFlight=0)
         {
-            return UnitOfWork.Airports.GetAll().ToList();
+            if (flight.DatetimeDeparture == null){ return UnitOfWork.Flights.AsQueryable().Where(u => u.AirportDeparture == flight.AirportDeparture
+                 && u.AirportArrive == flight.AirportArrive).Skip(pageFlight * 20).Take(20).ToList(); }
+            return UnitOfWork.Flights.AsQueryable().Where(u => u.AirportDeparture == flight.AirportDeparture
+                 && u.AirportArrive == flight.AirportArrive && u.DatetimeDeparture >= flight.DatetimeDeparture).Skip(pageFlight * 20).Take(20).ToList();
         }
-        
-        public List<Flight> listFlights()
-        {
-            return UnitOfWork.Flights.GetAll().ToList();
-        }
-
-        public List<Person> listPersons()
-        {
-            return UnitOfWork.Persons.GetAll().ToList();
-        }
-
-        public List<Reservation> listReservations()
-        {
-            return UnitOfWork.Reservations.GetAll().ToList();
-        }
-
-        public List<Seat> listSeats()
-        {
-            return UnitOfWork.Seats.GetAll().ToList();
-        }
-
-        public List<Ticket> listTickets()
-        {
-            return UnitOfWork.Tickets.GetAll().ToList();
-        }
-
-        public List<User> listUsers()
-        {
-            Message = "ERROR 404";
-            return null;
-           // return UnitOfWork.Users.GetAll().ToList();
-        }
-
     }
 }
+

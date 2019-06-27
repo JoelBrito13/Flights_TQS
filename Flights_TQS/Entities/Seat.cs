@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Flights_TQS.Entities
 {
-    public class Seat
+    public class Seat 
     {
         public virtual long Id { get; set; }
         public virtual int Row { get; set; }

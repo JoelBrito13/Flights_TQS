@@ -11,7 +11,7 @@ namespace Flights_TQS.Interfaces {
     IRepository<Reservation> Reservations { get; }
     IRepository<Seat> Seats { get; }
     IRepository<Ticket> Tickets { get; }
-    IRepository<User> Users { get; }
+    IRepository<FlightUser> Users { get; }
 
     void SaveChanges();
     void BeginTransaction();
