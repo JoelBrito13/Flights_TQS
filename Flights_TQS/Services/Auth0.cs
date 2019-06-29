@@ -91,7 +91,8 @@ namespace Flights_TQS.Services
 
                 if (decodedCrypto != decodedSignature)
                 {
-                    throw new ApplicationException(string.Format("Invalid signature. Expected {0} got {1}", decodedCrypto, decodedSignature));
+                    ApplicationException applicationException = new ApplicationException(string.Format("Invalid signature. Expected {0} got {1}", decodedCrypto, decodedSignature));
+                    throw applicationException;
                 }
             }
 
@@ -154,6 +155,7 @@ namespace Flights_TQS.Services
             AppServices = appServices;
         }
 
+
         private bool HasAccessToken(out string token)
         {
             string url = $"{AppServices.Auth0Settings["ManagementApi"]}/oauth/token";
@@ -178,14 +180,14 @@ namespace Flights_TQS.Services
             return response.IsSuccessful;
         }
 
-        public async Task<IPagedList<User>> ListarAsync()
+        public async Task<IPagedList<User>> ListAsync()
         {
             if (HasAccessToken(out string token))
             {
                 var accessToken = JsonConvert.DeserializeObject<JsonAccessToken>(token);
 
                 var client = new ManagementApiClient(accessToken.access_token, AppServices.Auth0Settings["Domain"]);
-                return null; //await client.Users.GetAllAsync();
+                //await client.Users.GetAllAsync();
             }
 
             return null;
@@ -227,7 +229,7 @@ namespace Flights_TQS.Services
             return null;
         }
 
-        public async Task<User> IncludeAsync(int idx, string email, string senha, string nome, string sobrenome)
+        public async Task<User> IncludeAsync(int id, string email, string password, string fName, string lName)
         {
             try
             {
@@ -242,13 +244,13 @@ namespace Flights_TQS.Services
                         EmailVerified = false,
 
                         Email = email,
-                        Password = senha,
-                        FirstName = nome,
-                        LastName = sobrenome,
-                        FullName = String.Format("{0} {1}", nome, sobrenome).Trim(),
+                        Password = password,
+                        FirstName = fName,
+                        LastName = lName,
+                        FullName = String.Format("{0} {1}", fName, lName).Trim(),
                         AppMetadata = new
                         {
-                            idxUsuario = idx
+                            idUser = id
                         }
                     };
 
@@ -264,7 +266,7 @@ namespace Flights_TQS.Services
             }
         }
 
-        public async Task<User> EditarAsync(FlightUser flightUser)
+        public async Task<User> EditAsync(FlightUser flightUser)
         {
             if (HasAccessToken(out string token))
             {
@@ -290,7 +292,7 @@ namespace Flights_TQS.Services
             return null;
         }
 
-        public async Task<User> EditarAppMetadataAsync(FlightUser flightUser)
+        public async Task<User> EditAppMetadataAsync(FlightUser flightUser)
         {
             if (HasAccessToken(out string token))
             {

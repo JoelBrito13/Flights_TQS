@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auth0.ManagementApi.Models;
+using Flights_TQS.Entities;
 using Flights_TQS.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,36 +19,91 @@ namespace Flights_TQS.Controllers
         {
             Reserve = reserve;
         }
-        // GET: api/Reservers
-        [HttpGet]
-        public IEnumerable<string> GetR()
+
+        //Post: api/Reservers/list
+        [HttpPost]
+        [Route("ListOwnReserves/{id}")]
+        public IActionResult listOwnReserves(int id)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var list = Reserve.listOwnReserves(id);
+
+                IActionResult response = Ok(list);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        //Get: api/Reservers/list
+        [HttpPut]
+        [Route("Insert/{id}")]
+        public IActionResult CreateReseve(int id, [FromBody] List<Entities.Ticket> tickets)
+        {
+            try
+            {
+                var list = Reserve.CreateReserve(id, tickets);
+
+                IActionResult response = Ok(list);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        //// GET: api/Reservers/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpPost]
+        [Route("ListSeats")]
+        public IActionResult ListSeats([FromBody] Airplane airplane)
+        {
+            try
+            {
+                var list = Reserve.listSeats(airplane);
 
-        //// POST: api/Reservers
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+                IActionResult response = Ok(list);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //// PUT: api/Reservers/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut]
+        [Route("UpdateTickets")]
+        public IActionResult UpdateTickets([FromBody] List<Entities.Ticket> tickets)
+        {
+            try
+            {
+                Reserve.UpdateTickets(tickets);
 
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+                IActionResult response = CreatedAtAction("Update Tickets", true);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete]
+        [Route("DeleteTicket/{id}")]
+        public IActionResult DeleteTicket(int id, [FromBody] List<Entities.Ticket> tickets)
+        {
+            try
+            {
+                Reserve.DeleteTicket(tickets);
+
+                IActionResult response = CreatedAtAction("Deleted Ticket", true);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

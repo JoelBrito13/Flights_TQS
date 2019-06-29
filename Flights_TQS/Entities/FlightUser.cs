@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
+using Auth0.ManagementApi.Models;
 
 namespace Flights_TQS.Entities
 {
-    public class FlightUser 
+    public class FlightUser
     {
         public static ValidationResult ValidateEmail(string email)
         {
@@ -34,48 +35,19 @@ namespace Flights_TQS.Entities
         [Required(ErrorMessage = "Email is Required")]
         [CustomValidation(typeof(FlightUser), "ValidateEmail")]
         public virtual string Email { get; set; }
-
-        [Required(ErrorMessage = "Password is Required")]
-        public virtual string Password { get; set; }
+        [NotMapped]
+        public virtual User Auth0 { get; set; }
 
         public virtual string GetFullName()
-        { return FName + LName; }         
+        { return FName + LName; }
     }
 
-    public class AuthenticateFlightUser 
+    public class FlightUserAdd : FlightUser
     {
-        public static ValidationResult ValidateEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return ((addr.Address == email) ? ValidationResult.Success : new ValidationResult("Invalid Email"));
-            }
-            catch
-            {
-                return new ValidationResult("Invalid Email");
-            }
-        }
-        [Required(ErrorMessage = "Email is Required")]
-        [CustomValidation(typeof(AuthenticateFlightUser), "ValidateEmail")]
-        public virtual string Email { get; set; }
-
         [Required(ErrorMessage = "Password is Required")]
         public virtual string Password { get; set; }
     }
-  
 }
-
-
-//        public static ValidationResult IdxMaiorOuIgualAZero(int idx)
-//{
-//    return ((idx >= 0) ? ValidationResult.Success : new ValidationResult("Índice inválido"));
-//}
-
-//#region // Atributos //
-//[Required(ErrorMessage = "O Id field is Required")]
-//[CustomValidation(typeof(Base), "IdxMaiorOuIgualAZero")]
-//public virtual int Id { get; set; }
 
 
 

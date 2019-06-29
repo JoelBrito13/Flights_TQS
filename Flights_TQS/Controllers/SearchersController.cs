@@ -20,13 +20,8 @@ namespace Flights_TQS.Controllers
            Search = search;
         }
 
-        // GET: api/Searchers
-        [HttpGet]
-        public IEnumerable<string> GetS()
-        {
-            return new string[] { "value1", "value2" };
-        }
-        // GET: api/Searchers/ListAirports
+        
+        // POST: api/Searchers/ListAirports
         [HttpPost]
         [Route("ListAirports")]
         public IActionResult ListAirports([FromBody]Search.RecvStr recv)

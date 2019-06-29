@@ -16,7 +16,7 @@ using System.Linq;
 
 namespace Tests
 {
-    public class SearchersTests
+    public class ReserveTests 
     {
         public IConfiguration Configuration { get; set; }
         public ISearch Search { get; set; }

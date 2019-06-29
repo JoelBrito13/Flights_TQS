@@ -97,7 +97,7 @@ namespace Flights_TQS.Repository
                 return _Tickets;
             }
         }
-        public IRepository<FlightUser> Users
+        public IRepository<FlightUser> FlightUsers
         {
             get
             {

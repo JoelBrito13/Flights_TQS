@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Flights_TQS.Interfaces
 {
-    public interface ISearch
+    interface IDelieverFlight
     {
-        List<Airport> listAirports(String filter = null);
-        List<Flight> listFlights(Flight flight, int pageFlight = 0);
+        Airplane InsertAirplanes(AirplaneToAdd airplaneInsert);
+        Flight InsertFlights(EssencialFlight flight);
     }
 }

@@ -8,17 +8,12 @@ namespace Flights_TQS.Interfaces
 {
     public interface ILogin
     {
-        string Message { get; set; }
-        FlightUser authenticate(AuthenticateFlightUser authenticateUser);
-        FlightUser addUser(FlightUser userToAdd);
-
-        //List<FlightUser> Listar(string filtro = null);
-        //List<FlightUser> ListarNomes(string filtro = null);
-        //FlightUser Ler(int idx, bool lerAuth = false);
-        //FlightUser LerPorEmail(string email, bool lerAuth = false);
-        //FlightUser Salvar(FlightUser usuario);
-        //string SalvarFoto(FlightUser usuario, string fotoBase64);
-        //bool Excluir(int idx);
-        //FlightUser Verificar(string idxAuth0);
+        FlightUser Read(int Id, bool readAuth = false);
+        FlightUser ReadByEmail(string email, bool readAuth = false);
+        FlightUser Add(FlightUserAdd flightUserAdd, bool AddAuth0, string IdAuth0 = null);
+        FlightUser Save(FlightUser flightUser);
+        bool Delete(int Id);
+        FlightUser Verify(string IdAuth0);
+        List<FlightUser> listUsers();
     }
 }

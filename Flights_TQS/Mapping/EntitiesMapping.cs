@@ -22,7 +22,6 @@ namespace Flights_TQS.Mapping
             Map(e => e.LName).Column("l_name");
             Map(e => e.BornDate).Column("born_date");
             Map(e => e.Email).Column("email");
-            Map(e => e.Password).Column("password");
         }
     }
 
@@ -143,7 +142,7 @@ namespace Flights_TQS.Mapping
         {
             Table("Reserves");
 
-            Id(e => e.Id).Column("reservation_code");
+            Id(e => e.Code).Column("reservation_code");
             Map(e => e.User).Column("user");
             Map(e => e.Ticket).Column("ticket");
             Map(e => e.Datetime).Column("datetime");

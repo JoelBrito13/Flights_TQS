@@ -16,7 +16,9 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using NHibernate;
 using NHibernate.Cfg;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Claims;
 
@@ -59,17 +61,17 @@ namespace Flights_TQS
                   //    {
                   //        // Get the calling app client id that came from the token produced by Azure AD
                   //        var AppServices = ctx.HttpContext.RequestServices.GetRequiredService<IAppServices>();
-                  //        string idxUsuario = ctx.Principal.FindFirstValue(AppServices.Auth0Settings["ClaimIdxUsuario"]);
+                  //        string idUsuario = ctx.Principal.FindFirstValue(AppServices.Auth0Settings["ClaimIdUser"]);
 
                   //        if (String.IsNullOrEmpty(idxUsuario))
                   //        {
                   //            var nameidentifier = ctx.Principal.FindFirstValue(AppServices.Auth0Settings["ClaimNameIdentifier"]);
 
                   //            var FlightUser = ctx.HttpContext.RequestServices.GetRequiredService<ILogin>();
-                  //            idxUsuario = FlightUser.Verify(nameidentifier).Idx.ToString();
+                  //            idxUsuario = FlightUser.Verify(nameidentifier).Id.ToString();
 
                   //            var appIdentity = new ClaimsIdentity(new List<Claim> {
-                  //new Claim(AppServices.Auth0Settings["ClaimIdxUsuario"], idxUsuario)
+                  //new Claim(AppServices.Auth0Settings["ClaimIdUser"], idxUsuario)
                   //    });
 
                   //            ctx.Principal.AddIdentity(appIdentity);
@@ -113,7 +115,8 @@ namespace Flights_TQS
             .AddScoped<IUnitOfWork, UnitOfWork>()
             .AddScoped<ISearch, Search>()
             .AddScoped<IReserve, Reserve>()
-            .AddScoped<ILogin, Login>();
+            .AddScoped<ILogin, Login>()
+            .AddScoped<IDelieverFlight, DelieverFlight>();
 
             // Add CORS
             services.AddCors(options =>
@@ -158,28 +161,25 @@ namespace Flights_TQS
                 fo.MultipartBodyLengthLimit = int.MaxValue;
             });
 
-            // Swagger
-        //    services.AddSwaggerGen(c =>
-        //    {
-        //        c.SwaggerDoc("v1", new Info
-        //        {
-        //            Title = "Flight Reservetion | API .Net Core",
-        //            Version = "v1",
-        //            {
-        //                Name = "TaxPayer Sistemas",
-        //                Url = "https://www.taxpayer.com.br"
-        //            }
-        //        });
+            //Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "Flight Reservetion | API .Net Core",
+                    Version = "v1"
+                });
+            });
+            //        string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
+            //        string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
+            //        string caminhoXmlDoc = Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
 
-        //        string caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
-        //        string nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
-        //        string caminhoXmlDoc = Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
+            //        c.IncludeXmlComments(caminhoXmlDoc);
+            //    });
+            //});
 
-        //        c.IncludeXmlComments(caminhoXmlDoc);
-        //    });
+            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
             var cultureInfo = new CultureInfo("en-US");
@@ -218,11 +218,11 @@ namespace Flights_TQS
             });
 
             // Ativando middlewares para uso do Swagger
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "FlightTQS");
-            //});
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FlightTQS");
+            });
         }
     }
 }
