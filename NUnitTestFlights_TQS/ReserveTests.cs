@@ -16,10 +16,10 @@ using System.Linq;
 
 namespace Tests
 {
-    public class ReserveTests 
+    public class ReserveTests
     {
         public IConfiguration Configuration { get; set; }
-        public ISearch Search { get; set; }
+        public IReserve Reserve { get; set; }
         private ISessionFactory initSession()
         {
             //string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -47,7 +47,6 @@ namespace Tests
                 throw ex;
             }
         }
-        //private readonly ISearch Search;
         [SetUp]
         public void Setup()
         {
@@ -59,36 +58,32 @@ namespace Tests
 
 
             IUnitOfWork unitOfWork = new UnitOfWork(sessionFactory, appServices);
-            Search = new Search(unitOfWork);
+            Reserve = new Reserve(unitOfWork);
         }
 
         [Test]
-        public void listAirportsByPorto()
+        public void listRersevation_Tickets_Jean()
         {
-            String filter = "Porto";
-            var list = Search.listAirports(filter);
-            Assert.NotNull(list);
-            Assert.IsInstanceOf(typeof(Airport), list.FirstOrDefault());
-            Assert.IsTrue(list.FirstOrDefault().Name.StartsWith(filter) 
-                || list.FirstOrDefault().City.StartsWith(filter) || list.FirstOrDefault().Country.StartsWith(filter));
+            int id = 1;
+            var list_tuple = Reserve.ListOwnReserves(id);
+            Assert.NotNull(list_tuple);
+            Assert.AreEqual(list_tuple.FirstOrDefault().Item1.User, id);
+            Assert.AreEqual(list_tuple.FirstOrDefault().Item1.Ticket, list_tuple.FirstOrDefault().Item2.Id);
         }
         [Test]
-        public void listFlights_Porto_Lisbon()
+        public void listRersevation_Seat_Boeing777()
         {
-            Flight flight = new Flight
+            Airplane airplane = new Airplane
             {
-                AirportDeparture = 71,
-                AirportArrive = 70,
-                DatetimeDeparture = DateTime.Parse("2019-07-01")
+                Id = 40,
+                Model = "Boeing 777",
+                Company = "KLM",
+                NumSeats = 379
             };
-            var list = Search.listFlights(flight);
+            var list = Reserve.listSeats(airplane);
             Assert.NotNull(list);
-            var firstRestult = list.FirstOrDefault();
-            Assert.IsNotNull(firstRestult);
-            Assert.IsInstanceOf(typeof(Flight), firstRestult);
-            Assert.AreEqual(flight.AirportDeparture, firstRestult.AirportDeparture);
-            Assert.AreEqual(flight.AirportArrive, firstRestult.AirportArrive);
-            Assert.LessOrEqual(flight.AirportDeparture, firstRestult.AirportDeparture);
+            Assert.AreEqual(list.Count, airplane.NumSeats);
+            Assert.AreEqual(list.FirstOrDefault().Airplane, airplane.Id);
         }
     }
 }
