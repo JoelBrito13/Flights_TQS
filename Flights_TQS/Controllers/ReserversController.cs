@@ -27,7 +27,7 @@ namespace Flights_TQS.Controllers
         {
             try
             {
-                var list = Reserve.listOwnReserves(id);
+                var list = Reserve.ListOwnReserves(id);
 
                 IActionResult response = Ok(list);
                 return response;

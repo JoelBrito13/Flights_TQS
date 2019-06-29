@@ -73,13 +73,23 @@ namespace Flights_TQS.Services
             }
         }
 
-        public List<Reservation> listOwnReserves(int id)
+        public List<Tuple<Reservation, Ticket>> ListOwnReserves(int id)
         {
+            if (id == null) throw new InvalidOperationException("[Reservation] Null Id");
+
+            List<Tuple<Reservation, Ticket>> returnList = new List<Tuple<Reservation, Ticket>>();
             try
             {
-                if (id != null) return UnitOfWork.Reservations.AsQueryable().Where(u => u.User == id).ToList();
-                throw new InvalidOperationException("[Reservation] Null Id");
+                List<Reservation> reservations = UnitOfWork.Reservations.AsQueryable().Where(u => u.User == id).ToList();
+                foreach (Reservation reserve in reservations)
+                {
+                    returnList.Add(
+                        Tuple.Create(reserve,
+                        UnitOfWork.Tickets.Get(reserve.Ticket)));
+                }
+                return returnList;
             }
+
             catch (Exception ex)
             {
                 throw ex;
@@ -125,7 +135,7 @@ namespace Flights_TQS.Services
                 throw ex;
             }
         }
-        private string getNewCode()
+        public string getNewCode()
         {
             string hex = UnitOfWork.Reservations.GetAll().Last().Code;
             BigInteger b1 = BigInteger.Parse(hex, NumberStyles.AllowHexSpecifier);
